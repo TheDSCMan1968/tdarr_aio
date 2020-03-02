@@ -5,7 +5,7 @@ ENV MONGO_URL=mongodb://localhost:27017/tdarr
 ENV PORT=8265
 ENV ROOT_URL=http://0.0.0.0/
 ENV NODE_ARGS="--max-old-space-size=16384"
-ENV HOME=/home/Tdarr
+ENV HOME=/home/tdarr
 ENV UID=1000
 ENV GID=1000
 
@@ -51,15 +51,15 @@ RUN apt-get update && \
 RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
     apt-get install nodejs -yq
 
-ADD Tdarr ${HOME}/Tdarr
+ADD tdarr ${HOME}/tdarr
 COPY start /usr/local/bin
 
 RUN groupadd -g ${GID} -r tdarr && useradd -u ${UID} -r -g tdarr tdarr && usermod -aG mongodb tdarr
 
 RUN mkdir -p ${HOME}/media ${HOME}/logs /temp && \
     touch ${HOME}/logs/tdarr.log ${HOME}/logs/mongodb.log && \
-    chmod a+rwx ${HOME}/Tdarr/bundle/programs/server/assets/app/ccextractor/ccextractor && \
-    chmod a+rwx ${HOME}/Tdarr/bundle/programs/server/assets/app/ffmpeg/ffmpeg42/ffmpeg* && \
+    chmod a+rwx ${HOME}/tdarr/bundle/programs/server/assets/app/ccextractor/ccextractor && \
+    chmod a+rwx ${HOME}/tdarr/bundle/programs/server/assets/app/ffmpeg/ffmpeg42/ffmpeg* && \
     chown -R tdarr:tdarr ${HOME} && \
     chown -R tdarr:tdarr /temp && \
     chown tdarr:tdarr /usr/local/bin/*
